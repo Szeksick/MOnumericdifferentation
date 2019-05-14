@@ -8,10 +8,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import sample.methods.RectExc;
-import sample.methods.RectIns;
-import sample.methods.Simpson;
-import sample.methods.Trapeze;
+import sample.methods.Simplediff;
+import sample.methods.Backwardsdiff;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -20,6 +18,7 @@ import java.util.Scanner;
 
 public class Controller {
 @FXML private TextArea resultout;
+@FXML private x0;
 @FXML private Label filename;
 @FXML private AnchorPane ap;
 private ArrayList<Double> tabx, taby, templist;
@@ -53,15 +52,11 @@ int n;
                 tabx = new ArrayList<Double>(templist.subList(0, (templist.size()/2)));
                 taby = new ArrayList<Double>(templist.subList(templist.size()/2,templist.size()));
                 templist.clear();
-                RectExc rectExc = new RectExc(tabx, taby);
-                RectIns rectIns = new RectIns(tabx, taby);
-                Simpson simpson = new Simpson(tabx, taby);
-                Trapeze trapeze = new Trapeze(tabx, taby);
+                Simplediff simplediff = new Simplediff(tabx, taby, -1.5);
+                Backwardsdiff backwardsdiff = new Backwardsdiff(tabx, taby);
 
-                resultout.setText("Metoda prostokątów z niedomiarem: "+String.valueOf(rectIns.calculate())+"\n");
-                resultout.appendText("Metoda prostokątów z nadmiarem: "+String.valueOf(rectExc.calculate())+"\n");
-                resultout.appendText("Metoda trapezów: "+String.valueOf(trapeze.calculate())+"\n");
-                resultout.appendText("Metoda Simpsona: "+String.valueOf(simpson.calculate())+"\n");
+                resultout.appendText("Metoda różnicy zwykłej: "+String.valueOf(simplediff.calculate())+"\n");
+                resultout.appendText("Metoda różnicy wstecznej: "+String.valueOf(backwardsdiff.calculate())+"\n");
             } catch (Exception exept) {
                 exept.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
