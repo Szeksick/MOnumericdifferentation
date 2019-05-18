@@ -1,6 +1,8 @@
 package sample.methods;
 
 import javafx.scene.control.Alert;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 
@@ -14,7 +16,6 @@ public class Simplediff {
         this.tabx = tabx;
         this.taby = taby;
         this.x0 = x0;
-
     }
     private void init(){
         try{
@@ -23,7 +24,7 @@ public class Simplediff {
         }catch(Exception e){
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Błąd metody prostokatów z niedomiarem");
+            alert.setTitle("Błąd metody różnicy zwykłej");
             alert.setHeaderText(null);
             alert.setContentText("Mniej niż 2 punkty pomiarowe");
             alert.showAndWait();

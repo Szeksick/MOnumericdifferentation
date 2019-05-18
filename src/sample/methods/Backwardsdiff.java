@@ -5,25 +5,24 @@ import javafx.scene.control.Alert;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static java.lang.StrictMath.abs;
 
 
 public class Backwardsdiff {
+    private Double x0;
     private ArrayList<Double> tabx, taby, templist;
     private ArrayList<ArrayList<Double>> subresult;
     private Double h, result, sum,tempresult;
     private int n, selected;
 
-    public Backwardsdiff(ArrayList<Double> tabx, ArrayList<Double> taby) {
+    public Backwardsdiff(ArrayList<Double> tabx, ArrayList<Double> taby, Double x0) {
         this.tabx = tabx;
         this.taby = taby;
+        this.x0 = x0;
         init();
     }
     private void init(){
         try{
-//            Collections.reverse(this.tabx);
-//            Collections.reverse(this.taby);
-            this.h = abs(this.tabx.get(1)- this.tabx.get(0));
+            this.h = this.tabx.get(1)- this.tabx.get(0);
             this.n = this.tabx.size();
             this.sum = 0.0;
         }catch(Exception e){
@@ -36,33 +35,26 @@ public class Backwardsdiff {
         }
     }
     private double calcsubresult(){
+        Collections.reverse(this.tabx);
+        Collections.reverse(this.taby);
+        System.out.println("h:"+h+"\n"+"n"+n+"\n"+"taby:"+taby+"\n"+"tabx:"+tabx);
         ArrayList<ArrayList<Double>> subresult = new ArrayList<>();
         for(int i = 0; i < n-1 ; i++){
             subresult.add(new ArrayList<>());
             if(i==0){
-                for(int j = 0; j < n-i; j++){
-                    subresult.get(i).add(0, taby.get(j + 1) - taby.get(j));
+                for(int j = 0; j < n-1-i; j++){
+                    subresult.get(i).add(taby.get(j) - taby.get(j+1));
+                    System.out.println(taby.get(j + 1)+" - " +taby.get(j)+" = "+subresult.get(i));
                 }
             }else{
                 for(int j = 0; j < n-1-i ; j++) {
-                    subresult.get(i).add(subresult.get(i - 1).get(j + 1) - subresult.get(i - 1).get(j));
+                    subresult.get(i).add(subresult.get(i - 1).get(j) - subresult.get(i - 1).get(j+1));
                 }
             }
+            System.out.println("subresult["+i+"]="+subresult.get(i));
         }
-//        for(int i = n-1 ; i > 0 ; i--){
-//            subresult.add(new ArrayList<>());
-//            if(i == n-1){
-//                for(int j = n-i; j > 1 ; j--){
-//                    subresult.get(i).add(0 ,taby.get(j-1) - taby.get(j));
-//                }
-//            }else{
-//                for(int j = n-i; j > 1 ; j--){
-//                    subresult.get(i).add(0 ,subresult.get(i-1).get(j-1) - subresult.get(i+1).get(j));
-//                }
-//            }
-//        }
         System.out.println("subresult size: "+String.valueOf(subresult.size()));
-        selected = tabx.size()/2;
+        selected = tabx.indexOf(x0);
         templist = new ArrayList<Double>();
         for(int i = 0; i < subresult.size()-1; i++){
             if(subresult.get(i).size() > selected) {

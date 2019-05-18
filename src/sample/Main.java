@@ -13,7 +13,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.initStyle(StageStyle.UTILITY);
-        primaryStage.setTitle("Konrad Gugała gr 11A - Całkowanie numeryczne");
+        primaryStage.setTitle("Konrad Gugała gr 11A - Różniczkowanie numeryczne");
         Scene scene = new Scene(root, 400, 400);
         primaryStage.setScene(scene);
         scene.getStylesheets().add("Style.css");
