@@ -1,6 +1,6 @@
 package sample;
 
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -29,7 +29,7 @@ private Double x;
 private File selectedFile;
 
 
-    public void init(ActionEvent e) {
+    public void init() {
         Stage stage = (Stage) ap.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
@@ -43,7 +43,7 @@ private File selectedFile;
         } else {
             try {
                 filename.setText(selectedFile.getName());
-                ArrayList<Double> templist = new ArrayList<Double>();
+                ArrayList<Double> templist = new ArrayList<>();
                 try (Scanner scanner = new Scanner(selectedFile)) {
                         while (scanner.hasNext())
                             templist.add(Double.parseDouble(scanner.next()));
@@ -51,8 +51,8 @@ private File selectedFile;
                         fileexept.printStackTrace();
                 }
                 filename.setText("Wybrany plik: "+selectedFile.getName());
-                tabx = new ArrayList<Double>(templist.subList(0, (templist.size()/2)));
-                taby = new ArrayList<Double>(templist.subList(templist.size()/2, templist.size()));
+                tabx = new ArrayList<>(templist.subList(0, (templist.size()/2)));
+                taby = new ArrayList<>(templist.subList(templist.size()/2, templist.size()));
                 templist.clear();
             } catch (Exception exept) {
                 exept.printStackTrace();

@@ -1,30 +1,26 @@
 package sample.methods;
 
 import javafx.scene.control.Alert;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
 
-
 public class Backwardsdiff {
     private Double x0;
-    private ArrayList<Double> tabx, taby, templist;
-    private ArrayList<ArrayList<Double>> subresult;
-    private Double h, result, sum,tempresult;
-    private int n, selected;
+    private ArrayList<Double> tabx;
+    private ArrayList<Double> taby;
+    private Double h;
+    private int n;
 
     public Backwardsdiff(ArrayList<Double> tabx, ArrayList<Double> taby, Double x0) {
         this.tabx = tabx;
         this.taby = taby;
         this.x0 = x0;
-        init();
     }
     private void init(){
         try{
             this.h = this.tabx.get(1)- this.tabx.get(0);
             this.n = this.tabx.size();
-            this.sum = 0.0;
         }catch(Exception e){
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -35,9 +31,8 @@ public class Backwardsdiff {
         }
     }
     private double calcsubresult(){
-        Collections.reverse(this.tabx);
-        Collections.reverse(this.taby);
-        System.out.println("h:"+h+"\n"+"n"+n+"\n"+"taby:"+taby+"\n"+"tabx:"+tabx);
+        Collections.reverse(tabx);
+        Collections.reverse(taby);
         ArrayList<ArrayList<Double>> subresult = new ArrayList<>();
         for(int i = 0; i < n-1 ; i++){
             subresult.add(new ArrayList<>());
@@ -51,32 +46,30 @@ public class Backwardsdiff {
                     subresult.get(i).add(subresult.get(i - 1).get(j) - subresult.get(i - 1).get(j+1));
                 }
             }
-            System.out.println("subresult["+i+"]="+subresult.get(i));
+
         }
-        System.out.println("subresult size: "+String.valueOf(subresult.size()));
-        selected = tabx.indexOf(x0);
-        templist = new ArrayList<Double>();
+        int selected = tabx.indexOf(x0);
+        ArrayList<Double> templist = new ArrayList<>();
         for(int i = 0; i < subresult.size()-1; i++){
             if(subresult.get(i).size() > selected) {
                 templist.add(subresult.get(i).get(selected));
             }
         }
-        System.out.println("Templist size: "+templist.size());
-        System.out.println("Templist: "+String.valueOf(templist));
-        tempresult = 0.0;
+        Double tempresult = 0.0;
 
-        for(int i=0; i < templist.size();i++){
+        for(int i = 0; i < templist.size(); i++){
             if(i==0){
                 tempresult = tempresult + (templist.get(i));
             }else{
                     tempresult = tempresult + ((1.0 / (i + 1.0)) * templist.get(i));
                  }
             }
+        Collections.reverse(tabx);
+        Collections.reverse(taby);
         return tempresult;
     }
     public double calculate(){
         init();
-        result = (1/h)*calcsubresult();
-        return result;
+        return (1 / h) * calcsubresult();
     }
 }

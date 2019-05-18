@@ -1,8 +1,6 @@
 package sample.methods;
 
 import javafx.scene.control.Alert;
-
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 
