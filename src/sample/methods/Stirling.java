@@ -71,7 +71,7 @@ public class Stirling {
                 }
             }
         }
-        return tempresult;
+        return -tempresult;
     }
     public double calculate(){
         init();
