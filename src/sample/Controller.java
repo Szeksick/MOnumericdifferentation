@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -20,12 +19,10 @@ import java.util.Scanner;
 
 public class Controller {
 @FXML private TextArea resultout;
-@FXML private TextField x0;
 @FXML private Label filename;
 @FXML private AnchorPane ap;
 private ArrayList<Double> tabx;
 private ArrayList<Double> taby;
-private Double x;
 private File selectedFile;
 
 
@@ -65,16 +62,6 @@ private File selectedFile;
             }
         }
         public void calculate() {
-          try {
-              if (x0.getText().isEmpty()) throw new Exception();
-              x = Double.parseDouble(x0.getText());
-          }catch(Exception e){
-                  Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                  alert.setTitle("Błąd kalkulatora");
-                  alert.setHeaderText(null);
-                  alert.setContentText("Nie podałeś x0");
-                  alert.showAndWait();
-          }
             if (selectedFile == null) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Błąd kalkulatora");
@@ -82,13 +69,16 @@ private File selectedFile;
                 alert.setContentText("Nie wybrano pliku");
                 alert.showAndWait();
             } else {
-                Simplediff simplediff = new Simplediff(tabx, taby, x);
-                Backwardsdiff backwardsdiff = new Backwardsdiff(tabx, taby, x);
-                Stirling stirling = new Stirling(x, tabx, taby);
-                resultout.appendText("<==== Obliczenia dla x0 ="+x+" ====>\n");
-                resultout.appendText("Metoda różnicy zwykłej: " + String.valueOf(simplediff.calculate()) + "\n");
-                resultout.appendText("Metoda różnicy wstecznej: " + String.valueOf(backwardsdiff.calculate()) + "\n");
-                resultout.appendText("Metoda różnic centralnych: " + String.valueOf(stirling.calculate()) + "\n");
+                Simplediff simplediff = new Simplediff(tabx, taby);
+                Backwardsdiff backwardsdiff = new Backwardsdiff(tabx, taby);
+                Stirling stirling = new Stirling(tabx, taby);
+                resultout.appendText("[----"+selectedFile.getName()+"----]\n");
+                for (Double tabx1 : tabx) {
+                    resultout.appendText("<==== Obliczenia dla x0 =" + tabx1 + " ====>\n");
+                    resultout.appendText("Metoda różnicy zwykłej: " + simplediff.calculate(tabx1) + "\n");
+                    resultout.appendText("Metoda różnicy wstecznej: " + backwardsdiff.calculate(tabx1) + "\n");
+                    resultout.appendText("Metoda różnic centralnych: " + stirling.calculate(tabx1) + "\n");
+                }
             }
          }
     }

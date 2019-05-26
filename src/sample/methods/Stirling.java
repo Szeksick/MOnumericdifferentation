@@ -5,14 +5,12 @@ import javafx.scene.control.Alert;
 import java.util.ArrayList;
 
 public class Stirling {
-    private Double x0;
     private ArrayList<Double> tabx;
     private ArrayList<Double> taby;
     private Double h;
     private int n;
 
-    public Stirling(Double x0, ArrayList<Double> tabx, ArrayList<Double> taby) {
-        this.x0 = x0;
+    public Stirling(ArrayList<Double> tabx, ArrayList<Double> taby) {
         this.tabx = tabx;
         this.taby = taby;
     }
@@ -30,9 +28,9 @@ public class Stirling {
         }
     }
 
-    private double calcsubresult(){
+    private double calcsubresult(Double x0){
+        int selected = tabx.indexOf(x0);
         ArrayList<ArrayList<Double>> subresult = new ArrayList<>();
-        System.out.println("h:"+h+"\n"+"n"+n+"\n"+"taby:"+taby+"\n"+"tabx:"+tabx);
         for(int i = 0; i < n-1 ; i++){
             subresult.add(new ArrayList<>());
             if(i==0){
@@ -44,10 +42,7 @@ public class Stirling {
                     subresult.get(i).add(subresult.get(i - 1).get(j) - subresult.get(i - 1).get(j+1));
                 }
             }
-            System.out.println("subresult["+i+"]="+subresult.get(i));
         }
-        System.out.println("subresult size: "+String.valueOf(subresult.size()));
-        int selected = tabx.indexOf(x0);
         ArrayList<Double> templist = new ArrayList<>();
 
         int iter = 0;
@@ -57,9 +52,7 @@ public class Stirling {
                 iter++;
             }
         }
-        Double tempresult = 0.0;
-        System.out.println("Templist size: "+ templist.size());
-        System.out.println("Templist: "+String.valueOf(templist));
+        double tempresult = 0.0;
         for(int i = 0; i < templist.size(); i++){
             if(i==0){
                 tempresult = tempresult + (templist.get(i)/2);
@@ -73,9 +66,13 @@ public class Stirling {
         }
         return -tempresult;
     }
-    public double calculate(){
+    public double calculate(Double x){
         init();
-        return (1 / h) * calcsubresult();
+        try {
+            return (1 / h) * calcsubresult(x);
+        }catch (Exception f){
+            return 0.0;
+        }
     }
 
 }

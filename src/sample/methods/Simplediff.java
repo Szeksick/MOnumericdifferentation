@@ -7,13 +7,12 @@ import java.util.ArrayList;
 public class Simplediff {
     private ArrayList<Double> tabx;
     private ArrayList<Double> taby;
-    private Double h, x0;
+    private Double h;
     private int n;
 
-    public Simplediff(ArrayList<Double> tabx, ArrayList<Double> taby, Double x0) {
+    public Simplediff(ArrayList<Double> tabx, ArrayList<Double> taby) {
         this.tabx = tabx;
         this.taby = taby;
-        this.x0 = x0;
     }
     private void init(){
         try{
@@ -29,7 +28,8 @@ public class Simplediff {
         }
     }
 
-    private double calcsubresult(){
+    private double calcsubresult(Double x0){
+        int selected = tabx.indexOf(x0);
         ArrayList<ArrayList<Double>> subresult = new ArrayList<>();
         for(int i = 0; i < n-1 ; i++){
             subresult.add(new ArrayList<>());
@@ -43,7 +43,6 @@ public class Simplediff {
                 }
             }
         }
-        int selected = tabx.indexOf(x0);
         ArrayList<Double> templist = new ArrayList<>();
         for(int i = 0; i < subresult.size()-1; i++){
             if(subresult.get(i).size() > selected) {
@@ -65,8 +64,8 @@ public class Simplediff {
         }
         return tempresult;
     }
-    public double calculate(){
+    public double calculate(Double x){
         init();
-        return (1 / h) * calcsubresult();
+        return (1 / h) * calcsubresult(x);
     }
 }

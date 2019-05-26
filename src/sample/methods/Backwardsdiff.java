@@ -6,16 +6,14 @@ import java.util.Collections;
 
 
 public class Backwardsdiff {
-    private Double x0;
     private ArrayList<Double> tabx;
     private ArrayList<Double> taby;
     private Double h;
     private int n;
 
-    public Backwardsdiff(ArrayList<Double> tabx, ArrayList<Double> taby, Double x0) {
+    public Backwardsdiff(ArrayList<Double> tabx, ArrayList<Double> taby) {
         this.tabx = tabx;
         this.taby = taby;
-        this.x0 = x0;
     }
     private void init(){
         try{
@@ -30,7 +28,8 @@ public class Backwardsdiff {
             alert.showAndWait();
         }
     }
-    private double calcsubresult(){
+    private double calcsubresult(Double x0){
+        int selected = tabx.indexOf(x0);
         Collections.reverse(tabx);
         Collections.reverse(taby);
         ArrayList<ArrayList<Double>> subresult = new ArrayList<>();
@@ -39,7 +38,6 @@ public class Backwardsdiff {
             if(i==0){
                 for(int j = 0; j < n-1-i; j++){
                     subresult.get(i).add(taby.get(j) - taby.get(j+1));
-                    System.out.println(taby.get(j + 1)+" - " +taby.get(j)+" = "+subresult.get(i));
                 }
             }else{
                 for(int j = 0; j < n-1-i ; j++) {
@@ -48,7 +46,6 @@ public class Backwardsdiff {
             }
 
         }
-        int selected = tabx.indexOf(x0);
         ArrayList<Double> templist = new ArrayList<>();
         for(int i = 0; i < subresult.size()-1; i++){
             if(subresult.get(i).size() > selected) {
@@ -68,8 +65,8 @@ public class Backwardsdiff {
         Collections.reverse(taby);
         return tempresult;
     }
-    public double calculate(){
+    public double calculate(Double x){
         init();
-        return (1 / h) * calcsubresult();
+        return (1 / h) * calcsubresult(x);
     }
 }
